@@ -1,6 +1,5 @@
 package io.github.mvanbrummen.emailservice.service;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.mvanbrummen.emailservice.TestData;
 import io.specto.hoverfly.junit.core.Hoverfly;
 import io.specto.hoverfly.junit5.HoverflyExtension;
@@ -24,9 +23,6 @@ class EmailServiceIntegrationTest {
 
     @Autowired
     private EmailService emailService;
-
-    @Autowired
-    private ObjectMapper objectMapper;
 
     @Test
     void shouldSendEmailToPrimaryProviderWhenRequestIsSuccess(Hoverfly hoverfly) throws Exception {
@@ -63,7 +59,34 @@ class EmailServiceIntegrationTest {
         hoverfly.simulate(dsl(
                 service("api.sendgrid.com")
                         .post("/v3/mail/send")
-                        .body(objectMapper.writeValueAsString(request))
+                        .body("""
+                                {
+                                  "from": {
+                                    "email": "michaelvanbrummen@icloud.com",
+                                    "name": null
+                                  },
+                                  "personalizations": [
+                                    {
+                                      "to": [
+                                        {
+                                          "email": "michaelvanbrummen@gmail.com",
+                                          "name": null
+                                        }
+                                      ],
+                                      "cc": null,
+                                      "bcc": null
+                                    }
+                                  ],
+                                  "subject": "Test Subject",
+                                  "content": [
+                                    {
+                                      "type": "text/plain",
+                                      "value": "Test Content"
+                                    }
+                                  ]
+                                }
+                                    """
+                        )
                         .willReturn(success())
         ));
 
