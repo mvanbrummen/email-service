@@ -54,7 +54,7 @@ class EmailControllerTest {
                         {
                           "subject": "must not be null",
                           "from": "must not be null",
-                          "to": "must not be null",
+                          "to": "must not be empty",
                           "content": "must not be null"
                         }
                         """));

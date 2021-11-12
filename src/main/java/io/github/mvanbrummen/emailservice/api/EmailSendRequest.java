@@ -19,7 +19,6 @@ public class EmailSendRequest {
     @NotNull
     private final String content;
 
-    @NotNull
     @NotEmpty
     @Valid
     private final List<Person> to;

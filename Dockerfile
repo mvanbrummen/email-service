@@ -1,7 +1,7 @@
 FROM maven:3.8.3-openjdk-17 as compile
 COPY . /build
 WORKDIR /build
-RUN mvn clean install
+RUN --mount=type=cache,target=/root/.m2 mvn clean install
 
 FROM openjdk:17-alpine
 WORKDIR /app
