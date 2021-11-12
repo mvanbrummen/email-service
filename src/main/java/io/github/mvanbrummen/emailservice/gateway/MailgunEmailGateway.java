@@ -35,7 +35,7 @@ public class MailgunEmailGateway implements EmailGateway {
         log.info(">>> sending from mailgun");
     }
 
-    private LinkedMultiValueMap<String, String> buildForm(final EmailSendRequest emailSendRequest) {
+    static LinkedMultiValueMap<String, String> buildForm(final EmailSendRequest emailSendRequest) {
         final var form = new LinkedMultiValueMap<String, String>();
         form.put("to", emailSendRequest.getTo().stream()
                 .map(Person::getEmail)

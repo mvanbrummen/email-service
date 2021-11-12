@@ -16,13 +16,6 @@ public class SendGridEmailRequest {
     private final String subject;
     private final List<Content> content;
 
-//    @Data
-//    @Builder
-//    static class Person {
-//        private final String email;
-//        private final String name;
-//    }
-
     @Data
     @Builder
     static class Personalizations {
