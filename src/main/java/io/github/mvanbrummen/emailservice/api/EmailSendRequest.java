@@ -1,5 +1,6 @@
 package io.github.mvanbrummen.emailservice.api;
 
+import lombok.Builder;
 import lombok.Data;
 
 import javax.validation.Valid;
@@ -8,6 +9,7 @@ import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Data
+@Builder
 public class EmailSendRequest {
     @NotNull
     @Valid
