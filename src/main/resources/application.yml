@@ -3,3 +3,9 @@ management:
     web:
       exposure:
         include: health
+
+email:
+  gateway:
+    sendgrid:
+      base-url: https://api.sendgrid.com/v3
+      api-key: ${SENDGRID_API_KEY}
