@@ -11,7 +11,7 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
-@Component
+@Component("sendgridEmailGateway")
 @Slf4j
 @RequiredArgsConstructor
 public class SendGridEmailGateway implements EmailGateway {
@@ -27,5 +27,7 @@ public class SendGridEmailGateway implements EmailGateway {
         final var entity = new HttpEntity<>(request, headers);
 
         sendgridRestTemplate.exchange("/mail/send", HttpMethod.POST, entity, String.class);
+
+        log.info(">>> sending from send grid");
     }
 }

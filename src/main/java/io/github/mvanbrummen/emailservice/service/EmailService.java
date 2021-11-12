@@ -9,9 +9,10 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class EmailService {
     private final EmailGateway sendgridEmailGateway;
+    private final EmailGateway mailgunEmailGateway;
 
     public void sendEmail(final EmailSendRequest emailSendRequest) {
-        sendgridEmailGateway.sendEmail(emailSendRequest);
+        mailgunEmailGateway.sendEmail(emailSendRequest);
     }
 
 }

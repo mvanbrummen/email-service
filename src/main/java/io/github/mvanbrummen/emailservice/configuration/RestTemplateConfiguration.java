@@ -19,4 +19,14 @@ public class RestTemplateConfiguration {
                 .defaultHeader("Authorization", "Bearer " + apiKey)
                 .build();
     }
+
+    @Bean
+    @Qualifier("mailgunRestTemplate")
+    public RestTemplate mailgunRestTemplate(@Value("${email.gateway.mailgun.base-url}") final String baseUrl,
+                                            @Value("${email.gateway.mailgun.api-key}") final String apiKey) {
+        return new RestTemplateBuilder()
+                .rootUri(baseUrl)
+                .basicAuthentication("api", apiKey)
+                .build();
+    }
 }
