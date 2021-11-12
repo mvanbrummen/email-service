@@ -15,6 +15,7 @@ import static io.specto.hoverfly.junit.core.SimulationSource.dsl;
 import static io.specto.hoverfly.junit.dsl.HoverflyDsl.service;
 import static io.specto.hoverfly.junit.dsl.ResponseCreators.serverError;
 import static io.specto.hoverfly.junit.dsl.ResponseCreators.success;
+import static io.specto.hoverfly.junit.dsl.matchers.HoverflyMatchers.matches;
 
 @SpringBootTest
 @ActiveProfiles("test")
@@ -33,8 +34,8 @@ class EmailServiceIntegrationTest {
 
         hoverfly.simulate(dsl(
                 service("api.mailgun.net")
-                        .post("/v3/messages")
-                        .body(objectMapper.writeValueAsString(request))
+                        .post("/v3/sandbox3793fb4e82f6408281f7901e8578d9fc.mailgun.org/messages")
+                        .body("to=michaelvanbrummen%40gmail.com&from=michaelvanbrummen%40icloud.com&subject=Test+Subject&text=Test+Content")
                         .willReturn(success("""
                                 {
                                   "id": "<20211112053919.32086b1dc8d5e76e@sandbox3793fb4e82f6408281f7901e8578d9fc.mailgun.org>",
@@ -44,6 +45,8 @@ class EmailServiceIntegrationTest {
         ));
 
         emailService.sendEmail(request);
+
+        hoverfly.verifyZeroRequestTo(service(matches("api.sendgrid.com")));
     }
 
     @Test
@@ -52,8 +55,8 @@ class EmailServiceIntegrationTest {
 
         hoverfly.simulate(dsl(
                 service("api.mailgun.net")
-                        .post("/v3/messages")
-                        .body(objectMapper.writeValueAsString(request))
+                        .post("/v3/sandbox3793fb4e82f6408281f7901e8578d9fc.mailgun.org/messages")
+                        .body("to=michaelvanbrummen%40gmail.com&from=michaelvanbrummen%40icloud.com&subject=Test+Subject&text=Test+Content")
                         .willReturn(serverError())
         ));
 
