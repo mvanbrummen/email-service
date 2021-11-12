@@ -14,6 +14,7 @@ import static io.specto.hoverfly.junit.core.SimulationSource.dsl;
 import static io.specto.hoverfly.junit.dsl.HoverflyDsl.service;
 import static io.specto.hoverfly.junit.dsl.ResponseCreators.serverError;
 import static io.specto.hoverfly.junit.dsl.ResponseCreators.success;
+import static io.specto.hoverfly.junit.dsl.matchers.HoverflyMatchers.equalsToJson;
 import static io.specto.hoverfly.junit.dsl.matchers.HoverflyMatchers.matches;
 
 @SpringBootTest
@@ -59,7 +60,7 @@ class EmailServiceIntegrationTest {
         hoverfly.simulate(dsl(
                 service("api.sendgrid.com")
                         .post("/v3/mail/send")
-                        .body("""
+                        .body(equalsToJson("""
                                 {
                                   "from": {
                                     "email": "michaelvanbrummen@icloud.com",
@@ -86,7 +87,7 @@ class EmailServiceIntegrationTest {
                                   ]
                                 }
                                     """
-                        )
+                        ))
                         .willReturn(success())
         ));
 
