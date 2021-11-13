@@ -2,7 +2,7 @@
   "name": "email-service",
   "version": "0.1.0",
   "bin": {
-    "iac": "bin/iac.js"
+    "iac": "bin/email-service.js"
   },
   "scripts": {
     "build": "tsc",
