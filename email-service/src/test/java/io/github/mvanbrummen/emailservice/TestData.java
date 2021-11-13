@@ -15,4 +15,15 @@ public class TestData {
                 .subject("Test Subject")
                 .build();
     }
+
+    public static EmailSendRequest emailSendRequestInvalidEmails() {
+        return EmailSendRequest.builder()
+                .to(List.of(Person.builder().email("plainaddress").build()))
+                .from(Person.builder().email("#@%^%#$@#$@#.com").build())
+                .cc(List.of(Person.builder().email("@example.com").build()))
+                .bcc(List.of(Person.builder().email("email@example.com (Joe Smith)").build()))
+                .content("Test Content")
+                .subject("Test Subject")
+                .build();
+    }
 }

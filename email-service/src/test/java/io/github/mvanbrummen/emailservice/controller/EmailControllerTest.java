@@ -59,4 +59,22 @@ class EmailControllerTest {
                         }
                         """));
     }
+
+    @Test
+    void shouldReturn400WhenEmailValidationFails() throws Exception {
+        var request = TestData.emailSendRequestInvalidEmails();
+
+        mockMvc.perform(post("/email/send")
+                        .contentType("application/json")
+                        .content(objectMapper.writeValueAsString(request)))
+                .andExpect(status().isBadRequest())
+                .andExpect(content().json("""
+                        {
+                          "to[0].email": "must be a well-formed email address",
+                          "bcc[0].email": "must be a well-formed email address",
+                          "cc[0].email": "must be a well-formed email address",
+                          "from.email": "must be a well-formed email address"
+                        }
+                        """));
+    }
 }
