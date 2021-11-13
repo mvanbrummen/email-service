@@ -1,6 +1,7 @@
 package io.github.mvanbrummen.emailservice.service;
 
 import io.github.mvanbrummen.emailservice.TestData;
+import io.github.mvanbrummen.emailservice.exception.EmailGatewayDownException;
 import io.specto.hoverfly.junit.core.Hoverfly;
 import io.specto.hoverfly.junit5.HoverflyExtension;
 import org.junit.jupiter.api.Test;
@@ -16,6 +17,8 @@ import static io.specto.hoverfly.junit.dsl.ResponseCreators.serverError;
 import static io.specto.hoverfly.junit.dsl.ResponseCreators.success;
 import static io.specto.hoverfly.junit.dsl.matchers.HoverflyMatchers.equalsToJson;
 import static io.specto.hoverfly.junit.dsl.matchers.HoverflyMatchers.matches;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
 
 @SpringBootTest
 @ActiveProfiles("test")
@@ -92,5 +95,53 @@ class EmailServiceIntegrationTest {
         ));
 
         emailService.sendEmail(request);
+    }
+
+    @Test
+    void shouldThrowEmailGatewayDownExceptionWhenBothGatewayCallsFail(Hoverfly hoverfly) {
+        var request = TestData.emailSendRequest();
+
+        hoverfly.simulate(dsl(
+                service("api.mailgun.net")
+                        .post("/v3/sandbox3793fb4e82f6408281f7901e8578d9fc.mailgun.org/messages")
+                        .body("to=michaelvanbrummen%40gmail.com&from=michaelvanbrummen%40icloud.com&subject=Test+Subject&text=Test+Content")
+                        .willReturn(serverError())
+        ));
+        hoverfly.simulate(dsl(
+                service("api.sendgrid.com")
+                        .post("/v3/mail/send")
+                        .body(equalsToJson("""
+                                {
+                                  "from": {
+                                    "email": "michaelvanbrummen@icloud.com",
+                                    "name": null
+                                  },
+                                  "personalizations": [
+                                    {
+                                      "to": [
+                                        {
+                                          "email": "michaelvanbrummen@gmail.com",
+                                          "name": null
+                                        }
+                                      ],
+                                      "cc": null,
+                                      "bcc": null
+                                    }
+                                  ],
+                                  "subject": "Test Subject",
+                                  "content": [
+                                    {
+                                      "type": "text/plain",
+                                      "value": "Test Content"
+                                    }
+                                  ]
+                                }
+                                    """
+                        ))
+                        .willReturn(serverError())
+        ));
+
+        assertThatThrownBy(() -> emailService.sendEmail(request))
+                .isInstanceOf(EmailGatewayDownException.class);
     }
 }
