@@ -21,7 +21,7 @@ export class EmailServiceStack extends cdk.Stack {
         desiredCount: 1,
         taskImageOptions: {
           containerPort: 8080,
-          image: ecs.ContainerImage.fromAsset("../"),
+          image: ecs.ContainerImage.fromAsset("../docker"),
           environment: {
             SENDGRID_API_KEY: process.env.SENDGRID_API_KEY!,
             MAILGUN_API_KEY: process.env.MAILGUN_API_KEY!,
