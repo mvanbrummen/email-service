@@ -25,4 +25,10 @@ public class SpringExceptionHandlerAdvice {
         return errors;
     }
 
+    @ResponseStatus(HttpStatus.BAD_GATEWAY)
+    @ExceptionHandler
+    public Map<String, String> handleEmailGatewayDownException(final EmailGatewayDownException ex) {
+        return Map.of("error", "Service is currently unavailable. Please try again later.");
+    }
+
 }

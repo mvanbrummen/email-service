@@ -3,6 +3,7 @@ package io.github.mvanbrummen.emailservice.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.mvanbrummen.emailservice.TestData;
 import io.github.mvanbrummen.emailservice.api.EmailSendRequest;
+import io.github.mvanbrummen.emailservice.exception.EmailGatewayDownException;
 import io.github.mvanbrummen.emailservice.service.EmailService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -12,6 +13,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -74,6 +76,23 @@ class EmailControllerTest {
                           "bcc[0].email": "must be a well-formed email address",
                           "cc[0].email": "must be a well-formed email address",
                           "from.email": "must be a well-formed email address"
+                        }
+                        """));
+    }
+
+    @Test
+    void shouldReturn502BadGatewayWhenEmailGatewayDownException() throws Exception {
+        var request = TestData.emailSendRequest();
+
+        doThrow(new EmailGatewayDownException()).when(emailService).sendEmail(request);
+
+        mockMvc.perform(post("/email/send")
+                        .contentType("application/json")
+                        .content(objectMapper.writeValueAsString(request)))
+                .andExpect(status().isBadGateway())
+                .andExpect(content().json("""
+                        {
+                          "error": "Service is currently unavailable. Please try again later."
                         }
                         """));
     }
