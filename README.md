@@ -118,6 +118,7 @@ Client flow could look like:
 * Improve exception error handling. Lots of missing exception cases eg invalid request JSON. Error message json could be more consistent too.
 
 ### Testing
+* Fix hoverfly TLS error by configuring RestTemplates SSLContext in the integration test as [per](https://docs.hoverfly.io/projects/hoverfly-java/en/latest/pages/misc/misc.html#trusting-hoverfly-certificate). 
 * Add end to end acceptance test suite
 * Add a load testing suite eg Gatling
 
