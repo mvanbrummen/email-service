@@ -3,7 +3,6 @@ package io.github.mvanbrummen.emailservice.gateway;
 import io.github.mvanbrummen.emailservice.api.EmailSendRequest;
 import io.github.mvanbrummen.emailservice.api.Person;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -16,7 +15,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Component("mailgunEmailGateway")
-@Slf4j
 @RequiredArgsConstructor
 public class MailgunEmailGateway implements EmailGateway {
     private final RestTemplate mailgunRestTemplate;
@@ -26,13 +24,11 @@ public class MailgunEmailGateway implements EmailGateway {
         final var headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
 
-        final LinkedMultiValueMap<String, String> form = buildForm(emailSendRequest);
+        final var form = buildForm(emailSendRequest);
 
         final var entity = new HttpEntity<>(form, headers);
 
-        mailgunRestTemplate.exchange("/messages", HttpMethod.POST, entity, String.class);
-
-        log.info(">>> sending from mailgun");
+        mailgunRestTemplate.exchange("/messages", HttpMethod.POST, entity, Void.class);
     }
 
     static LinkedMultiValueMap<String, String> buildForm(final EmailSendRequest emailSendRequest) {
