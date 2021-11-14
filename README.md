@@ -1,8 +1,8 @@
 # Email Service
 
-Email service built with SpringBoot and Java 17. Uses Mailgun and SendGrid as email providers as primary and fallback with Spring Retry providing the fallback mechanism.
+Email service built with SpringBoot and Java 17. Uses Mailgun and SendGrid as email providers as primary and fallback, with Spring Retry providing the fallback mechanism.
 
-Deployed to AWS as ECS Fargate service with CDK available here:
+Deployed to AWS as ECS Fargate service using CDK available here:
 
 http://email-email-1icufvg0y5nkp-1380419665.ap-southeast-2.elb.amazonaws.com
 
@@ -15,7 +15,7 @@ http://email-email-1icufvg0y5nkp-1380419665.ap-southeast-2.elb.amazonaws.com
 
 ##### Parameters
 
-####Email Send Request
+#### Email Send Request
 
 > | name      |  type     | data type               | description                                                           |
 > |-----------|-----------|-------------------------|-----------------------------------------------------------------------|
@@ -26,7 +26,7 @@ http://email-email-1icufvg0y5nkp-1380419665.ap-southeast-2.elb.amazonaws.com
 > | cc      |  optional |   Person[] |  List of CC recipients  |
 > | bcc      |  optional |   Person[] | List of BCC recipients  |
 
-####Person
+#### Person
 > | name      |  type     | data type               | description                                                           |
 > |-----------|-----------|-------------------------|-----------------------------------------------------------------------|
 > | email      |  required |   String | Valid email address  |
