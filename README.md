@@ -4,7 +4,7 @@ Email service built with SpringBoot and Java 17. Uses Mailgun and SendGrid as em
 
 Deployed to AWS as ECS Fargate service using CDK available here:
 
-http://email-email-1icufvg0y5nkp-1380419665.ap-southeast-2.elb.amazonaws.com
+http://email-email-znwmzynyi2ak-1028351478.ap-southeast-2.elb.amazonaws.com
 
 ------------------------------------------------------------------------------------------
 
@@ -96,7 +96,7 @@ npx cdk deploy
 
 Call the API (the email providers restrict which emails you can actually send to/from so have to use the below)
 ```
-curl http://email-email-1icufvg0y5nkp-1380419665.ap-southeast-2.elb.amazonaws.com/email/send \
+curl http://email-email-znwmzynyi2ak-1028351478.ap-southeast-2.elb.amazonaws.com/email/send \
 	-H 'Content-Type: application/json' \
 	-d '{	"from": {		 "email": "michaelvanbrummen@icloud.com",    "name": "Michael Van Brummen"	},		"to": [		{			"name": "Michael",			"email": "michaelvanbrummen@gmail.com"					}	],	"subject": "Test from my springboot app",	"content": "Hi"}'
 ```
