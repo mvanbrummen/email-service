@@ -104,40 +104,13 @@ class EmailServiceIntegrationTest {
         hoverfly.simulate(dsl(
                 service("api.mailgun.net")
                         .post("/v3/sandbox3793fb4e82f6408281f7901e8578d9fc.mailgun.org/messages")
-                        .body("to=michaelvanbrummen%40gmail.com&from=michaelvanbrummen%40icloud.com&subject=Test+Subject&text=Test+Content")
+                        .anyBody()
                         .willReturn(serverError())
         ));
         hoverfly.simulate(dsl(
                 service("api.sendgrid.com")
                         .post("/v3/mail/send")
-                        .body(equalsToJson("""
-                                {
-                                  "from": {
-                                    "email": "michaelvanbrummen@icloud.com",
-                                    "name": null
-                                  },
-                                  "personalizations": [
-                                    {
-                                      "to": [
-                                        {
-                                          "email": "michaelvanbrummen@gmail.com",
-                                          "name": null
-                                        }
-                                      ],
-                                      "cc": null,
-                                      "bcc": null
-                                    }
-                                  ],
-                                  "subject": "Test Subject",
-                                  "content": [
-                                    {
-                                      "type": "text/plain",
-                                      "value": "Test Content"
-                                    }
-                                  ]
-                                }
-                                    """
-                        ))
+                        .anyBody()
                         .willReturn(serverError())
         ));
 
