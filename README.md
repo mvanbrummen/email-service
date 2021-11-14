@@ -125,6 +125,7 @@ Client flow could look like:
 ### Deployment
 * Increase ECS instance count and enable autoscaling
 * Enable ECS deployment circuit breaker to rollback bad deploys
+* Add TLS cert to load balancer and domain name
 
 ### Security
 * Add auth to the application endpoints eg oauth2
