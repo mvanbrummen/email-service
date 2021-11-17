@@ -57,10 +57,7 @@ class EmailServiceIntegrationTest {
                 service("api.mailgun.net")
                         .post("/v3/sandbox3793fb4e82f6408281f7901e8578d9fc.mailgun.org/messages")
                         .body("to=michaelvanbrummen%40gmail.com&from=michaelvanbrummen%40icloud.com&subject=Test+Subject&text=Test+Content")
-                        .willReturn(serverError())
-        ));
-
-        hoverfly.simulate(dsl(
+                        .willReturn(serverError()),
                 service("api.sendgrid.com")
                         .post("/v3/mail/send")
                         .body(equalsToJson("""
@@ -95,6 +92,8 @@ class EmailServiceIntegrationTest {
         ));
 
         emailService.sendEmail(request);
+
+        hoverfly.verifyAll();
     }
 
     @Test
@@ -105,9 +104,7 @@ class EmailServiceIntegrationTest {
                 service("api.mailgun.net")
                         .post("/v3/sandbox3793fb4e82f6408281f7901e8578d9fc.mailgun.org/messages")
                         .anyBody()
-                        .willReturn(serverError())
-        ));
-        hoverfly.simulate(dsl(
+                        .willReturn(serverError()),
                 service("api.sendgrid.com")
                         .post("/v3/mail/send")
                         .anyBody()
@@ -116,5 +113,7 @@ class EmailServiceIntegrationTest {
 
         assertThatThrownBy(() -> emailService.sendEmail(request))
                 .isInstanceOf(EmailGatewayDownException.class);
+
+        hoverfly.verifyAll();
     }
 }
