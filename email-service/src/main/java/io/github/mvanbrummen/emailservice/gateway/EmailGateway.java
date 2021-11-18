@@ -5,4 +5,6 @@ import io.github.mvanbrummen.emailservice.api.EmailSendRequest;
 public interface EmailGateway {
 
     void sendEmail(EmailSendRequest emailSendRequest);
+
+    EmailGateway getNext();
 }

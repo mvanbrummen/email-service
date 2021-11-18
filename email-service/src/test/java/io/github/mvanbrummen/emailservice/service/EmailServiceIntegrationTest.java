@@ -63,19 +63,17 @@ class EmailServiceIntegrationTest {
                         .body(equalsToJson("""
                                 {
                                   "from": {
-                                    "email": "michaelvanbrummen@icloud.com",
-                                    "name": null
+                                    "email": "michaelvanbrummen@icloud.com"
                                   },
                                   "personalizations": [
                                     {
                                       "to": [
                                         {
-                                          "email": "michaelvanbrummen@gmail.com",
-                                          "name": null
+                                          "email": "michaelvanbrummen@gmail.com"
                                         }
                                       ],
-                                      "cc": null,
-                                      "bcc": null
+                                      "cc": [],
+                                      "bcc": []
                                     }
                                   ],
                                   "subject": "Test Subject",

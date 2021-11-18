@@ -1,5 +1,6 @@
 package io.github.mvanbrummen.emailservice.api;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Builder;
 import lombok.Data;
 
@@ -10,6 +11,7 @@ import java.util.List;
 
 @Data
 @Builder
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class EmailSendRequest {
     @NotNull
     @Valid
@@ -23,7 +25,9 @@ public class EmailSendRequest {
     @Valid
     private final List<Person> to;
     @Valid
-    private final List<Person> cc;
+    @Builder.Default
+    private final List<Person> cc = List.of();
     @Valid
-    private final List<Person> bcc;
+    @Builder.Default
+    private final List<Person> bcc = List.of();
 }
